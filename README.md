@@ -1,4 +1,4 @@
-# 🔥 CNN-LSTM: Where Computer Vision Meets Sequential Intelligence
+# 🧠 BCI Motor Imagery Classification using CNN-LSTM
 
 <div align="center">
   
@@ -8,55 +8,60 @@
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
   [![Kaggle](https://img.shields.io/badge/Kaggle-Notebook-blue.svg)](https://www.kaggle.com/code/veeraj16/cnn-lstm)
   
-  *Unleashing the power of hybrid deep learning architecture for next-generation AI*
+  *Decoding brain signals for motor imagery classification using hybrid deep learning*
   
-  🎯 **Performance**: Optimized | 🚀 **Speed**: Efficient inference | 📊 **Scalable**: Production-ready
+  🧠 **Brain-Computer Interface** | 🎯 **Motor Imagery** | 🤖 **Deep Learning** | 📊 **EEG Analysis**
   
 </div>
 
 ---
 
-## 🌟 What Makes This Special?
+## 🌟 What is This Project About?
 
-Ever wondered what happens when you combine the **spatial awareness of CNNs** with the **temporal memory of LSTMs**? You get a powerhouse that can understand both *what* is happening and *when* it's happening!
+This project tackles one of the most fascinating challenges in **Brain-Computer Interface (BCI)** technology: **Motor Imagery (MI) classification**. By combining the spatial feature extraction power of **Convolutional Neural Networks (CNNs)** with the temporal sequence modeling capabilities of **Long Short-Term Memory (LSTM)** networks, we can decode brain signals and classify different motor imagery tasks.
 
-This project implements a cutting-edge **CNN-LSTM hybrid architecture** that:
+**Motor Imagery** refers to the mental rehearsal of motor actions without actual movement - imagine moving your left hand, right hand, feet, or tongue. Our hybrid CNN-LSTM architecture can distinguish between these different imagined movements by analyzing EEG brain signals.
 
-- 🎨 **Extracts spatial features** using Convolutional Neural Networks
-- 🧠 **Captures temporal dependencies** with Long Short-Term Memory networks  
-- ⚡ **Achieves state-of-the-art performance** on sequential data
-- 🔧 **Provides production-ready code** with clean, modular design
+### 🔬 Key Features:
+
+- 🧠 **EEG Signal Processing**: Advanced preprocessing of brain signals
+- 🎨 **Spatial Feature Extraction**: CNN layers capture spatial patterns in EEG data
+- 🔄 **Temporal Sequence Modeling**: LSTM networks learn temporal dependencies
+- 🎯 **Multi-class Classification**: Classify different motor imagery tasks
+- 📊 **Comprehensive Analysis**: Detailed visualization and performance metrics
+- 🔧 **Production-Ready**: Clean, modular, and scalable implementation
 
 ## 🚀 Quick Start
 
 ```bash
-# Clone the magic
-git clone https://github.com/VeerajSai/cnn-lstm.git
-cd cnn-lstm
+# Clone the repository
+git clone https://github.com/VeerajSai/BCI-MI-using-CNN-LSTM.git
+cd BCI-MI-using-CNN-LSTM
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the model
+# Run the model training
 python train.py
 ```
 
 ## 🏗️ Architecture Overview
 
 ```
-Input Data → CNN Layers → Feature Maps → LSTM Layers → Dense Layers → Output
-     ↓           ↓             ↓            ↓            ↓         ↓
-  Raw Data   Spatial      Temporal     Sequential   Final    Predictions
-             Features     Features     Memory      Dense
+EEG Data → Preprocessing → CNN Layers → Feature Maps → LSTM Layers → Dense → MI Classification
+    ↓           ↓            ↓             ↓            ↓          ↓           ↓
+Raw EEG    Filtering/    Spatial      Temporal     Sequential  Final     Left/Right/
+Signals    Normalization  Features     Features     Memory     Dense     Feet/Tongue
 ```
 
 ### 🔍 Model Components
 
 | Component | Purpose | Key Features |
 |-----------|---------|--------------|
-| **CNN Block** | Spatial feature extraction | Conv2D, MaxPooling, Dropout |
-| **LSTM Block** | Temporal sequence modeling | Bidirectional LSTM, Return sequences |
-| **Dense Block** | Final classification/regression | Fully connected, Softmax/Linear |
+| **Preprocessing** | EEG signal cleaning | Bandpass filtering, normalization, epoching |
+| **CNN Block** | Spatial pattern extraction | Conv1D/2D, MaxPooling, Dropout |
+| **LSTM Block** | Temporal dependency modeling | Bidirectional LSTM, sequence learning |
+| **Classification** | Motor imagery prediction | Dense layers, softmax activation |
 
 ## 📊 Performance Metrics
 
@@ -64,228 +69,204 @@ Input Data → CNN Layers → Feature Maps → LSTM Layers → Dense Layers → 
 
 | Metric | Description | Status |
 |--------|-------------|---------|
-| **Accuracy** | Model classification accuracy | ✅ Optimized |
-| **Loss** | Training and validation loss | ✅ Converged |
-| **Precision** | Positive prediction accuracy | ✅ High |
+| **Accuracy** | Multi-class classification accuracy | ✅ Optimized |
+| **Precision** | Class-wise prediction precision | ✅ High |
 | **Recall** | True positive detection rate | ✅ Excellent |
-| **F1-Score** | Harmonic mean of precision & recall | ✅ Balanced |
-| **Training Time** | Time to train the model | ⚡ Efficient |
+| **F1-Score** | Balanced precision-recall metric | ✅ Robust |
+| **Kappa Score** | Agreement beyond chance | ✅ Strong |
+| **Training Time** | Model convergence time | ⚡ Efficient |
 
-*Note: Specific metrics will be updated based on your dataset and results*
+*Performance metrics are dataset-dependent and will vary based on subject and session*
 
 </div>
 
 ## 🛠️ Implementation Details
 
-### Data Pipeline
+### EEG Data Preprocessing
 ```python
-# Smart data preprocessing
-def preprocess_data(data):
-    # Normalization, augmentation, and batching
-    return preprocessed_data
-
-# Advanced feature engineering
-def create_sequences(data, sequence_length=50):
-    # Convert data into sequences for LSTM
-    return sequences, labels
+def preprocess_eeg(raw_data, fs=250):
+    # Bandpass filtering (8-30 Hz for motor imagery)
+    filtered_data = bandpass_filter(raw_data, low=8, high=30, fs=fs)
+    
+    # Common Average Reference (CAR)
+    car_data = apply_car(filtered_data)
+    
+    # Epoching and normalization
+    epochs = create_epochs(car_data, events, tmin=0, tmax=4)
+    normalized_epochs = normalize_epochs(epochs)
+    
+    return normalized_epochs
 ```
 
-### Model Architecture
+### Hybrid CNN-LSTM Architecture
 ```python
-def create_cnn_lstm_model(input_shape):
+def create_cnn_lstm_model(input_shape, num_classes=4):
     model = Sequential([
-        # CNN Feature Extraction
-        Conv2D(32, (3, 3), activation='relu'),
-        MaxPooling2D((2, 2)),
-        Conv2D(64, (3, 3), activation='relu'),
+        # CNN for spatial feature extraction
+        Conv2D(32, (1, 3), activation='relu', input_shape=input_shape),
+        BatchNormalization(),
+        MaxPooling2D((1, 2)),
+        
+        Conv2D(64, (1, 3), activation='relu'),
+        BatchNormalization(),
+        MaxPooling2D((1, 2)),
+        Dropout(0.25),
         
         # Reshape for LSTM
-        Reshape((sequence_length, features)),
+        Reshape((timesteps, features)),
         
-        # LSTM Temporal Processing
-        LSTM(128, return_sequences=True),
-        LSTM(64),
+        # LSTM for temporal modeling
+        LSTM(128, return_sequences=True, dropout=0.2),
+        LSTM(64, dropout=0.2),
         
-        # Final Dense Layers
+        # Classification layers
         Dense(50, activation='relu'),
+        Dropout(0.5),
         Dense(num_classes, activation='softmax')
     ])
     return model
 ```
 
-## 🎯 Use Cases & Applications
+## 🎯 Motor Imagery Classes
 
-### 🎬 Video Analysis
-- Action recognition in videos
-- Gesture detection and classification
-- Surveillance and security applications
+### 🤚 Classification Tasks:
+- **Left Hand**: Imagining left hand movement
+- **Right Hand**: Imagining right hand movement  
+- **Feet**: Imagining foot/feet movement
+- **Tongue**: Imagining tongue movement
 
-### 📈 Time Series Forecasting
-- Stock price prediction
-- Weather forecasting
-- IoT sensor data analysis
+### 📈 Applications:
+- **Assistive Technology**: Control devices for paralyzed patients
+- **Rehabilitation**: Motor function recovery training
+- **Gaming**: Mind-controlled gaming interfaces
+- **Research**: Understanding brain motor control mechanisms
 
-### 🏥 Medical Applications
-- ECG signal analysis
-- Medical imaging sequences
-- Patient monitoring systems
-
-### 🗣️ Speech & Audio
-- Speech recognition
-- Audio classification
-- Music genre detection
-
-## 📁 Project Structure
-
-```
-cnn-lstm/
-├── 📂 data/
-│   ├── raw/              # Raw dataset files
-│   ├── processed/        # Preprocessed data
-│   └── sample/           # Sample data for testing
-├── 📂 models/
-│   ├── cnn_lstm_model.py # Main model architecture
-│   ├── train_model.py    # Training script
-│   └── evaluate.py       # Model evaluation
-├── 📂 utils/
-│   ├── data_loader.py    # Data loading utilities
-│   ├── preprocessing.py  # Data preprocessing
-│   └── visualization.py  # Plotting and visualization
-├── 📂 notebooks/
-│   └── CNN_LSTM.ipynb    # Jupyter notebook (Kaggle version)
-├── 📂 results/
-│   ├── models/           # Saved trained models
-│   ├── logs/             # Training logs
-│   └── plots/            # Generated plots
-├── requirements.txt      # Python dependencies
-├── README.md            # This file
-└── config.py            # Configuration settings
-```
-
-*Note: Adjust the structure based on your actual project organization*
 
 ## 🔧 Installation & Setup
 
 ### Prerequisites
 - Python 3.8+
-- CUDA-compatible GPU (recommended)
+- CUDA-compatible GPU (recommended for faster training)
 - 8GB+ RAM
+- EEG datasets (BCI Competition IV, etc.)
 
-### Dependencies
+### Dependencies Required
 ```bash
 pip install tensorflow>=2.8.0
 pip install keras>=2.8.0
 pip install numpy>=1.21.0
-pip install pandas>=1.3.0
+pip install scipy>=1.7.0
+pip install mne>=0.24.0        # For EEG data handling
+pip install scikit-learn>=1.0.0
 pip install matplotlib>=3.5.0
 pip install seaborn>=0.11.0
-pip install scikit-learn>=1.0.0
+pip install pandas>=1.3.0
 ```
 
-## 📚 Documentation
+## 📚 Usage Guide
 
 ### Training the Model
 ```python
-# Train the model with your dataset
-python train_model.py --data_path ./data/processed/ --epochs 50 --batch_size 32
+# Train on BCI Competition dataset
+python train.py --dataset bci_iv --subject 1 --epochs 100 --batch_size 32
+
+# Train with custom EEG data
+python train.py --data_path ./data/custom/ --model_type cnn_lstm --lr 0.001
 ```
 
-### Running the Notebook
+### Evaluating Performance
 ```python
-# Open the Kaggle notebook locally
-jupyter notebook notebooks/CNN_LSTM.ipynb
+# Evaluate trained model
+python evaluate.py --model_path ./results/models/best_model.h5 --test_data ./data/test/
+
+# Cross-subject evaluation
+python evaluate.py --cross_subject --subjects 1,2,3,4 --cv_folds 5
 ```
 
-### Making Predictions
+### Real-time Classification
 ```python
-# Use trained model for predictions
-python evaluate.py --model_path ./results/models/best_model.h5 --test_data ./data/sample/
+# Real-time BCI classification
+python real_time_classify.py --model ./results/models/subject1_model.h5 --stream_data
 ```
 
-## 🎨 Visualization & Results
+## 🎨 Visualization & Analysis
 
-### Training Progress
-- Loss curves and accuracy plots
-- Confusion matrices
-- Feature maps visualization
-- Attention heatmaps
+### EEG Signal Visualization
+- Raw and filtered EEG signals
+- Topographic maps of brain activity
+- Time-frequency analysis (spectrograms)
+- Event-related potentials (ERPs)
 
-### Model Interpretability
-- Layer-wise feature analysis
-- LSTM hidden state visualization
-- Gradient-based explanations
+### Model Analysis
+- Training/validation curves
+- Confusion matrices per class
+- Feature importance visualization
+- Classification accuracy per subject
+
+### Performance Metrics
+- Subject-specific accuracy analysis
+- Cross-session validation results
+- Statistical significance testing
+- Comparison with baseline methods
 
 ## 🤝 Contributing
 
-We love contributions! Here's how you can help:
+We welcome contributions to improve BCI motor imagery classification! Here's how you can help:
 
 1. **🍴 Fork** the repository
-2. **🌿 Create** your feature branch (`git checkout -b feature/AmazingFeature`)
-3. **💻 Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **🚀 Push** to the branch (`git push origin feature/AmazingFeature`)
+2. **🌿 Create** your feature branch (`git checkout -b feature/NewPreprocessing`)
+3. **💻 Commit** your changes (`git commit -m 'Add advanced filtering'`)
+4. **🚀 Push** to the branch (`git push origin feature/NewPreprocessing`)
 5. **📬 Open** a Pull Request
 
 ### Areas for Contribution
-- [ ] Add support for different data types
-- [ ] Implement attention mechanisms
-- [ ] Add more evaluation metrics
-- [ ] Optimize for mobile deployment
-- [ ] Create web interface
+- [ ] Support for more EEG datasets
+- [ ] Advanced preprocessing techniques
+- [ ] Attention mechanisms for interpretability
+- [ ] Real-time optimization
+- [ ] Better Architecture
+- [ ] Cross-subject transfer learning
+- [ ] Web deployment
 
 ## 📊 Benchmarks & Comparisons
 
-| Model | Advantages | Use Case |
-|-------|------------|----------|
-| **CNN-LSTM (This Project)** | **Spatial + Temporal Learning** | **Sequential Data with Spatial Features** |
-| Vanilla CNN | Fast spatial feature extraction | Image classification |
-| Pure LSTM | Good for sequential data | Time series, text |
-| Transformer | Attention mechanism | NLP, long sequences |
-
-*Performance metrics will be updated based on your specific dataset and results*
+| Method | Approach | Advantages | Best Use Case |
+|--------|----------|------------|---------------|
+| **CNN-LSTM (This Project)** | **Hybrid Spatial-Temporal** | **Best of both worlds** | **Motor Imagery BCI** |
+| CSP + SVM | Classical ML | Fast, interpretable | Simple motor tasks |
+| Pure CNN | Deep spatial | Good for spatial patterns | Image-like EEG data |
+| Pure LSTM/RNN | Sequential modeling | Temporal dependencies | Time series EEG |
+| Transformer | Attention-based | Long-range dependencies | Complex sequences |
 
 ## 🏆 Project Highlights
 
-- 🎯 **Hybrid Architecture**: Combines CNN and LSTM for optimal performance
-- 📊 **Kaggle Notebook**: Well-documented implementation available
-- 🔧 **Modular Code**: Clean, readable, and maintainable codebase
-- 📈 **Visualizations**: Comprehensive plots and analysis
-- 🚀 **Production Ready**: Scalable and efficient implementation
+- 🧠 **BCI Focus**: Specifically designed for brain-computer interface applications
+- 🎯 **Motor Imagery**: Specialized for classifying imagined movements
+- 📊 **EEG Expertise**: Advanced EEG signal processing and analysis
+- 🔬 **Research Quality**: Based on established BCI research methodologies
+- 🚀 **Production Ready**: Scalable architecture for real-world deployment
+- 📈 **Comprehensive**: End-to-end pipeline from raw EEG to classification
 
 ## 🔮 Future Roadmap
 
-- [ ] **Attention Mechanisms**: Add self-attention for better performance
-- [ ] **Multi-modal**: Support for text, audio, and video simultaneously
-- [ ] **Edge Deployment**: Optimize for mobile and IoT devices
-- [ ] **AutoML**: Automated architecture search
-- [ ] **Distributed Training**: Multi-GPU and multi-node support
+- [ ] **Real-time Optimization**: Low-latency classification for online BCI
+- [ ] **Advanced Architectures**: Attention mechanisms and transformer variants
+- [ ] **Multi-modal Integration**: Combine EEG with other biosignals
+- [ ] **Edge Deployment**: Optimize for embedded BCI systems
+- [ ] **Clinical Validation**: Extensive testing with patient populations
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👏 Acknowledgments
-
-- 🙏 Thanks to the TensorFlow team for the amazing framework
-- 🎓 Inspired by research from top AI conferences
-- 💡 Built with love for the open-source community
-- 🤖 Powered by the magic of deep learning
-
-## 📞 Contact & Support
-
-**Found a bug?** 🐛 [Open an issue](https://github.com/VeerajSai/cnn-lstm/issues)
-
-**Have questions?** 💬 [Start a discussion](https://github.com/VeerajSai/cnn-lstm/discussions)
-
-**Connect with me:** 🔗 [GitHub Profile](https://github.com/VeerajSai)
-
 ---
 
 <div align="center">
   
-  **⭐ Star this repo if you found it helpful!**
+  **⭐ Star this repo if you found it helpful for BCI research!**
   
   Made with ❤️ by [VeerajSai](https://github.com/VeerajSai)
   
-  *"The best way to predict the future is to create it." - Peter Drucker*
+  *"The mind is not a vessel to be filled, but a fire to be kindled." - Plutarch*
   
 </div>
