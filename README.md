@@ -148,7 +148,7 @@ def create_cnn_lstm_model(input_shape, num_classes=4):
 - Python 3.8+
 - CUDA-compatible GPU (recommended for faster training)
 - 8GB+ RAM
-- EEG datasets (BCI Competition IV, etc.)
+- EEG datasets (BCI Competition IV 2a, etc.)
 
 ### Dependencies Required
 ```bash
@@ -161,32 +161,6 @@ pip install scikit-learn>=1.0.0
 pip install matplotlib>=3.5.0
 pip install seaborn>=0.11.0
 pip install pandas>=1.3.0
-```
-
-## 📚 Usage Guide
-
-### Training the Model
-```python
-# Train on BCI Competition dataset
-python train.py --dataset bci_iv --subject 1 --epochs 100 --batch_size 32
-
-# Train with custom EEG data
-python train.py --data_path ./data/custom/ --model_type cnn_lstm --lr 0.001
-```
-
-### Evaluating Performance
-```python
-# Evaluate trained model
-python evaluate.py --model_path ./results/models/best_model.h5 --test_data ./data/test/
-
-# Cross-subject evaluation
-python evaluate.py --cross_subject --subjects 1,2,3,4 --cv_folds 5
-```
-
-### Real-time Classification
-```python
-# Real-time BCI classification
-python real_time_classify.py --model ./results/models/subject1_model.h5 --stream_data
 ```
 
 ## 🎨 Visualization & Analysis
