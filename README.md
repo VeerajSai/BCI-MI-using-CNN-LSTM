@@ -31,19 +31,6 @@ This project tackles one of the most fascinating challenges in **Brain-Computer 
 - 📊 **Comprehensive Analysis**: Detailed visualization and performance metrics
 - 🔧 **Production-Ready**: Clean, modular, and scalable implementation
 
-## 🚀 Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/VeerajSai/BCI-MI-using-CNN-LSTM.git
-cd BCI-MI-using-CNN-LSTM
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the model training
-python train.py
-```
 
 ## 🏗️ Architecture Overview
 
