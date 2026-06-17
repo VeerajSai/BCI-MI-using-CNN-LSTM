@@ -170,24 +170,6 @@ pip install pandas>=1.3.0
 - Statistical significance testing
 - Comparison with baseline methods
 
-## 🤝 Contributing
-
-We welcome contributions to improve BCI motor imagery classification! Here's how you can help:
-
-1. **🍴 Fork** the repository
-2. **🌿 Create** your feature branch (`git checkout -b feature/NewPreprocessing`)
-3. **💻 Commit** your changes (`git commit -m 'Add advanced filtering'`)
-4. **🚀 Push** to the branch (`git push origin feature/NewPreprocessing`)
-5. **📬 Open** a Pull Request
-
-### Areas for Contribution
-- [ ] Support for more EEG datasets
-- [ ] Advanced preprocessing techniques
-- [ ] Attention mechanisms for interpretability
-- [ ] Real-time optimization
-- [ ] Better Architecture
-- [ ] Cross-subject transfer learning
-- [ ] Web deployment
 
 ## 📊 Benchmarks & Comparisons
 
